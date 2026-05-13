@@ -13,7 +13,9 @@ web/.env.local
 web/.next/
 web/out/
 
-# Prisma / SQLite
+# Prisma / SQLite (DATABASE_URL kan være file:./dev.db i web/ eller under prisma/)
+web/*.db
+web/*.db-journal
 web/prisma/*.db
 web/prisma/*.db-journal
 

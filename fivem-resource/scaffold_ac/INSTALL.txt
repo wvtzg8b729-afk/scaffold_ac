@@ -34,7 +34,7 @@ Forudsætninger
 
 --------------
 
-1. Web-panel kører (default: http://127.0.0.1:3000). Se `web/.env.example` i repo-roden (kopiér til `web/.env`).
+1. Web-panel kører (default: http://127.0.0.1:3000). Se `web/.env.example` i repo'et (kopiér til `web/.env`).
 
 2. Du har logget ind i panelet, oprettet en server og kopieret API-nøglen
 

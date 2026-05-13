@@ -20,8 +20,6 @@ Proprietær licens — se [`LICENSE`](LICENSE).
 
 | `fivem-resource/scaffold_ac/` | FiveM-resource (`ensure scaffold_ac`). |
 
-**Bemærk:** Mappen `fivem-resource/ac_panel/` er et ekstra/parallelt udkast — brug **`scaffold_ac`** som den understøttede resource, så du ikke blander to fxmanifest-navne.
-
 
 
 ## Statisk site (GitHub Pages)

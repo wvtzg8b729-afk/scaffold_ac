@@ -7,7 +7,7 @@ Bridge = Bridge or {}
 ---@param source number
 ---@return string|nil identifier primary license-style id if available
 function Bridge.GetPrimaryIdentifier(source)
-    local ids = GetPlayerIdentifiers(source)
+    local ids = GetPlayerIdentifiers(source) or {}
     for _, id in ipairs(ids) do
         if id:find('license:') == 1 then
             return id

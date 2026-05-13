@@ -21,7 +21,7 @@ local function tryInit()
 end
 
 local function licenseFallback(source)
-    local ids = GetPlayerIdentifiers(source)
+    local ids = GetPlayerIdentifiers(source) or {}
     for _, id in ipairs(ids) do
         if id:find('license:') == 1 then
             return id

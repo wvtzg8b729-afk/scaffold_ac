@@ -40,6 +40,12 @@ setr ac_ban_refresh_ms    "60000"
 
 
 
+# Client heartbeat-interval (ms). Læses af client/main.lua; standard 45000 hvis udeladt.
+
+setr ac_client_heartbeat_ms "45000"
+
+
+
 # Ace-permission der låser /ac-kommandoer op udover framework-staff.
 
 setr ac_staff_ace "scaffold_ac.staff"
