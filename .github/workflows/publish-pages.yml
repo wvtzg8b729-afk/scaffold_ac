@@ -24,6 +24,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Verificer at docs/ findes
+        run: |
+          test -f docs/index.html || (echo "::error::docs/index.html mangler" && exit 1)
+          ls -la docs
+
       - name: Push docs til gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -31,3 +36,7 @@ jobs:
           publish_dir: docs
           publish_branch: gh-pages
           force_orphan: true
+          # Påkrævet for nogle repos ellers fejler git-commit i action
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: "deploy: docs → gh-pages"
