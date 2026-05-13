@@ -7,35 +7,66 @@ https://docs.github.com/en/pages/getting-started-with-github-pages/troubleshooti
 Kilde: “Publishing source” (branch /docs, Actions, osv.):
 https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
 
+Om GitHub Pages (projekt-site URL):
+https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages
+
+--------------------------------------------------------------------
 1) REPO SKAL VÆRE PUBLIC (gratis GitHub)
+--------------------------------------------------------------------
    Private repo + gratis konto = ofte ingen/offentlig Pages-URL → 404.
    Settings → General → Danger zone → Change repository visibility → Public.
 
+--------------------------------------------------------------------
 2) METODE 0 (ANBEFALET — INGEN ACTIONS)
+--------------------------------------------------------------------
    Dette er den indbyggede GitHub-model: publicer mappen /docs på main.
    - Settings → Pages → Build and deployment → Source: "Deploy from a branch"
    - Branch: main
    - Folder: /docs  (IKKE "/" i roden af repo — vælg "/docs" i dropdown)
    - Save
    - Vent 1–2 min. Åbn: https://DIT_BRUGERNAVN.github.io/DIT_REPO/
-   Kræver: docs/index.html findes (det gør den i dette projekt). Filnavnet skal
-   være præcis "index.html" (små bogstaver).
+   Kræver: docs/index.html findes. Filnavnet skal være præcis "index.html"
+   (små bogstaver). Se GitHub Docs om index.html og 404.
 
+--------------------------------------------------------------------
 3) METODE 1 (gh-pages-branch + workflow "Publish GitHub Pages")
+--------------------------------------------------------------------
    Kræver: Settings → Actions → General → Workflow permissions → Read and write.
    Pages → Source → Deploy from branch → gh-pages → /
 
+   VIGTIGT (fra GitHub Docs om publishing source):
+   Commits der KUN bliver pushet af en GitHub Actions-workflow med GITHUB_TOKEN
+   udløser ikke altid samme "byg"adfærd som et manuelt push. Hvis gh-pages opdateres
+   men sitet ikke: opret et repository secret "GH_PAGES_TOKEN" med en PAT der må
+   pushe til repo — workflow bruger så PAT i stedet for GITHUB_TOKEN (se workflow-fil).
+
+--------------------------------------------------------------------
 4) METODE 2 (GitHub Actions artifact)
+--------------------------------------------------------------------
    Pages → Source → GitHub Actions.
-   Workflow: "Deploy Pages (Actions-kilde)".
+   Workflow: "Deploy Pages (Actions-kilde)" (to jobs: build + deploy, officielt mønster).
    Første gang: godkend miljøet "github-pages" under Actions, eller slå
    Required reviewers fra under Settings → Environments → github-pages.
 
-5) BRUG KUN ÉN KILDE AD GANGEN
-   Hvis du blander (fx Actions deploy mens Pages stadig peger på forkert mappe),
-   får du 404 eller gammelt indhold.
+   TEKNISK RETTELSE I DETTE REPO:
+   upload-pages-artifact v4 pakker IKKE dotfiler ind (.nojekyll) pga. tar --exclude.
+   Derfor bruges v5 med include-hidden-files: true — ellers kan Jekyll køre og ødelægge
+   statisk HTML.
 
-6) ANDRE 404-ÅRSAGER (fra GitHub)
+--------------------------------------------------------------------
+5) BRUG KUN ÉN KILDE AD GANGEN
+--------------------------------------------------------------------
+   Hvis du blander kilder eller peger forkert, får du 404 eller gammelt indhold.
+
+--------------------------------------------------------------------
+6) JEKYLL / .nojekyll
+--------------------------------------------------------------------
+   Filen docs/.nojekyll skal ligge i publiceringsroden (her: i mappen docs/).
+   Uden den kan GitHub Pages behandle undersider/_filer anderledes.
+
+--------------------------------------------------------------------
+7) ANDRE 404-ÅRSAGER (fra GitHub)
+--------------------------------------------------------------------
    - DNS hvis du bruger eget domæne
    - Browser-cache (prøv inkognito)
    - GitHub Status: https://www.githubstatus.com/

@@ -26,6 +26,8 @@ Proprietær licens — se [`LICENSE`](LICENSE).
 
 Hvis `git` ikke findes i terminalen, brug `scripts/git.ps1` (se tabellen) eller tilføj Git til PATH.
 
+## Statisk site (GitHub Pages)
+
 Når sitet er deployet, ligger det typisk på:
 
 **https://wvtzg8b729-afk.github.io/scaffold_ac/**
@@ -54,13 +56,14 @@ Det er GitHubs **simpleste** model og kræver **ikke** workflows.
 #### Metode 1 — Branch `gh-pages` (workflow)
 
 1. **Settings** → **Actions** → **General** → **Workflow permissions** → **Read and write permissions** → **Save**.
-2. **Actions** → **Publish GitHub Pages** → kør workflow. Tjek at branch **`gh-pages`** findes med **`index.html`** i roden.
-3. **Settings** → **Pages** → **Source** → **Deploy from a branch** → **`gh-pages`** → mappe **`/`** → **Save**.
+2. (Valgfrit) Opret secret **`GH_PAGES_TOKEN`** med en PAT der må pushe til repo — se **`GITHUB_PAGES_CHECKLIST.txt`** om hvorfor (GitHubs adfærd for `GITHUB_TOKEN`-commits).
+3. **Actions** → **Publish GitHub Pages** → kør workflow. Tjek at branch **`gh-pages`** findes med **`index.html`** i roden.
+4. **Settings** → **Pages** → **Source** → **Deploy from a branch** → **`gh-pages`** → mappe **`/`** → **Save**.
 
 #### Metode 2 — Kilde: **GitHub Actions**
 
 1. **Settings** → **Pages** → **Source** → **GitHub Actions**.
-2. **Actions** → **Deploy Pages (Actions-kilde)** → kør / vent på grøn.
+2. **Actions** → **Deploy Pages (Actions-kilde)** → kør / vent på grøn (build + deploy). Workflow bruger `upload-pages-artifact@v5` med **`include-hidden-files: true`**, så **`docs/.nojekyll`** kommer med (ellers kan Jekyll ændre dit statiske site).
 3. Godkend evt. miljøet **github-pages** første gang, eller slå **Required reviewers** fra under **Settings → Environments → github-pages**.
 
 ### Fejlsøgning (GitHub Pages)
@@ -99,7 +102,7 @@ Miljøvariabler: se `web/.env.example`.
 
 **Sikkerhed / `npm audit`:** Afhængigheder er opdateret til **Next 14.2.35** med `overrides` for `glob`. Nogle advisories på **Next 14** kræver **Next 15+** for fuld lukning — planlæg opgradering når I har tid til test; undgå `npm audit fix --force` uden review (springer til Next 16).
 
-
+## FiveM
 
 1. Kopiér `fivem-resource/scaffold_ac` til serverens `resources/` som mappen **`scaffold_ac`**.
 

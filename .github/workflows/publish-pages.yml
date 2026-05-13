@@ -1,10 +1,14 @@
 # Statisk hjemmeside (docs/) → branchen gh-pages.
 # GitHub: Settings → Pages → Source = "Deploy from a branch" → gh-pages → / (root)
 #
-# Valgfri: Metode 0 i README bruger i stedet branch main + mappe /docs — ingen workflow.
+# VIGTIGT (GitHub-dokumentation): Commits pushet af en workflow med GITHUB_TOKEN udløser
+# IKKE automatisk en ny GitHub Pages-build for "branch"-kilde på samme måde som et menneskes push.
+# Hvis gh-pages ikke opdaterer sitet: brug i stedet "main + /docs" ELLER sæt secret GH_PAGES_TOKEN
+# (PAT med repo scope) herunder — så bruges PAT til push.
+#
+# Nemmeste uden PAT: Settings → Pages → Deploy from a branch → main → Folder /docs
 #
 # KRÆVER: Settings → Actions → General → Workflow permissions = "Read and write permissions"
-# (ellers kan GITHUB_TOKEN ikke pushe gh-pages).
 
 name: Publish GitHub Pages
 
@@ -34,7 +38,7 @@ jobs:
       - name: Push docs til gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_PAGES_TOKEN || secrets.GITHUB_TOKEN }}
           publish_dir: docs
           publish_branch: gh-pages
           force_orphan: true

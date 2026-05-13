@@ -1,8 +1,11 @@
-# Bruges når: Settings → Pages → Source = "GitHub Actions"
-# (Alternativ til publish-pages.yml som pusher til gh-pages-branchen.)
+# GitHub Pages med kilde "GitHub Actions" (anbefalet hvis du ikke bruger "main + /docs").
+# Dokumentation: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
 #
-# Første kørsel: godkend evt. miljøet "github-pages" under Actions, eller
-# Settings → Environments → github-pages → slå "Required reviewers" fra.
+# Vigtigt: upload-pages-artifact v4+ udelukker skjulte filer som standard — .nojekyll skal
+# med for at slå Jekyll fra. Derfor v5 + include-hidden-files: true.
+#
+# Settings → Pages → Source: "GitHub Actions". Første kørsel: godkend miljøet "github-pages"
+# eller slå Required reviewers fra under Settings → Environments → github-pages.
 
 name: Deploy Pages (Actions-kilde)
 
@@ -21,11 +24,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,11 +33,25 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Verificer publiceringsrod
+        run: |
+          test -f docs/index.html || (echo "::error::docs/index.html mangler — GitHub kræver index.html i publiceringsroden." && exit 1)
+          test -f docs/.nojekyll || echo "::warning::docs/.nojekyll mangler — Jekyll kan ændre dit site uden denne fil."
+          ls -la docs
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
         with:
           path: docs
+          include-hidden-files: true
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
