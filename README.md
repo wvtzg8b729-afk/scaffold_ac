@@ -20,9 +20,11 @@ Proprietær licens — se [`LICENSE`](LICENSE).
 
 | `fivem-resource/scaffold_ac/` | FiveM-resource (`ensure scaffold_ac`). |
 
+| `scripts/git.ps1` | Hjælper på Windows hvis `git` ikke er i PATH (bruger GitHub Desktops Git). Kør fra repo-rod: `powershell -File scripts/git.ps1 status` |
 
+### Git på Windows
 
-## Statisk site (GitHub Pages)
+Hvis `git` ikke findes i terminalen, brug `scripts/git.ps1` (se tabellen) eller tilføj Git til PATH.
 
 Når sitet er deployet, ligger det typisk på:
 
@@ -95,9 +97,7 @@ Fra mappen `web/`:
 
 Miljøvariabler: se `web/.env.example`.
 
-
-
-## FiveM
+**Sikkerhed / `npm audit`:** Afhængigheder er opdateret til **Next 14.2.35** med `overrides` for `glob`. Nogle advisories på **Next 14** kræver **Next 15+** for fuld lukning — planlæg opgradering når I har tid til test; undgå `npm audit fix --force` uden review (springer til Next 16).
 
 
 
