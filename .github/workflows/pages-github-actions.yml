@@ -48,6 +48,10 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # Eksplicit som i GitHubs skabelon — nogle org-defaults giver ellers fejl ved deploy-pages.
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

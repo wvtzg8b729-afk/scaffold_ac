@@ -14,7 +14,7 @@ Proprietær licens — se [`LICENSE`](LICENSE).
 
 | --- | --- |
 
-| `docs/` | Statisk forside til **GitHub Pages** (kun HTML/CSS — ingen API). |
+| `docs/` | Statisk forside til **GitHub Pages** (kun HTML/CSS — ingen API). Se også rod-`index.html` hvis Pages ved en fejl peger på `main` + `/`. |
 
 | `web/` | **Fuld** admin-oplevelse: Next.js, API-ruter, Prisma — kræver Node-hosting og database. |
 
@@ -68,7 +68,7 @@ Det er GitHubs **simpleste** model og kræver **ikke** workflows.
 
 ### Fejlsøgning (GitHub Pages)
 
-- **404 “There isn’t a GitHub Pages site here”**: Er repo **public**? Er **Pages → Source** og mappe/branch **korrekt**? (Mange vælger ved en fejl **`/`** på **`main`** i stedet for **`/docs`** — så findes der ingen `index.html` i publiceringsroden og du får 404.) Prøv **Metode 0** først.
+- **404 “There isn’t a GitHub Pages site here”**: Er repo **public**? Er **Pages → Source** og mappe/branch **korrekt**? (Mange vælger ved en fejl **`/`** på **`main`** i stedet for **`/docs`** — så findes der ingen `index.html` i publiceringsroden og du får 404.) Prøv **Metode 0** først. *Hvis du alligevel har valgt **`/`** på `main`, ligger der nu en rod-**`index.html`**, der omdirigerer til **`docs/`** — men du skal stadig have **Pages slået til**; 404-siden vises før GitHub begynder at hoste filer.
 - **Workflow fejler** (metode 1): **Read and write** skal være slået til.
 - **Fork / andet repo-navn**: Opdatér `<base href="...">` i `docs/index.html` og `docs/404.html`.
 
