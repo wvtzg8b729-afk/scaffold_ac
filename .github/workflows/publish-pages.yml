@@ -1,8 +1,9 @@
 # Statisk hjemmeside (docs/) → branchen gh-pages.
 # GitHub: Settings → Pages → Source = "Deploy from a branch" → gh-pages → / (root)
 #
-# KRÆVER: Settings → Actions → General → Workflow permissions = "Read and write permissions"
-# (ellers kan GITHUB_TOKEN ikke pushe gh-pages).
+# Valgfri: Metode 0 i README bruger i stedet branch main + mappe /docs — ingen workflow.
+#
+# KRÆVER: Settings → Actions → General → Workflow permissions = "Read and write permissions"# (ellers kan GITHUB_TOKEN ikke pushe gh-pages).
 
 name: Publish GitHub Pages
 

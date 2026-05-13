@@ -36,27 +36,37 @@ Den byggede side er **ikke** panelet — den linker kun og forklarer. Se også `
 
 ### Sådan får du siden til at virke
 
-**Vigtigst (gratis GitHub):** Adressen `https://dit-brugernavn.github.io/repo-navn/` virker normalt **kun**, hvis repo’et er **public** (offentligt). Er repo’et **private**, får du ofte **404** på Pages — så skal du enten sætte det til **public** (*Settings → General → Danger zone → Change repository visibility*) eller hoste `docs/` et andet sted (fx Vercel/Cloudflare).
+**Vigtigst (gratis GitHub):** Ifølge [GitHub Docs om 404 på Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/troubleshooting-404-errors-for-github-pages-sites) skal du bl.a. have **`index.html`** på det rigtige sted i **publiceringskilden** — og på **gratis GitHub** skal repo’et som udgangspunkt være **public**, ellers kan den offentlige `github.io`-adresse give **404** (private Pages kræver betalt plan).
 
-Brug **kun én** metode ad gangen (vælg enten **Metode 1** eller **Metode 2** under *Settings → Pages → Source*).
+Se også filen **`GITHUB_PAGES_CHECKLIST.txt`** i roden (trin-for-trin + links).
 
-#### Metode 1 — Branch `gh-pages` (klassisk)
+Brug **kun én** publiceringskilde ad gangen under **Settings → Pages**.
+
+#### Metode 0 — `/docs` på `main` (anbefalet: ingen Actions)
+
+Det er GitHubs **simpleste** model og kræver **ikke** workflows.
+
+1. Repo skal være **public** (medmindre I betaler for private Pages).
+2. **Settings** → **Pages** → **Source** → **Deploy from a branch**.
+3. Branch: **`main`**, mappe: **`/docs`** (vælg præcis **`/docs`** i dropdown — ikke `/` i repo-roden).
+4. **Save**, vent 1–2 minutter, genindlæs `https://dit-brugernavn.github.io/repo-navn/`.
+
+#### Metode 1 — Branch `gh-pages` (workflow)
 
 1. **Settings** → **Actions** → **General** → **Workflow permissions** → **Read and write permissions** → **Save**.
-2. **Actions** → **Publish GitHub Pages** → **Run workflow** (eller push til `main`). Vent til **grøn**. Tjek **Code** → branch **gh-pages** → skal indeholde **index.html** i roden.
-3. **Settings** → **Pages** → **Source** → **Deploy from a branch** → branch **gh-pages**, mappe **/** → **Save**.
+2. **Actions** → **Publish GitHub Pages** → kør workflow. Tjek at branch **`gh-pages`** findes med **`index.html`** i roden.
+3. **Settings** → **Pages** → **Source** → **Deploy from a branch** → **`gh-pages`** → mappe **`/`** → **Save**.
 
-#### Metode 2 — Hvis du stadig får 404 (kilde: GitHub Actions)
+#### Metode 2 — Kilde: **GitHub Actions**
 
-1. **Settings** → **Pages** → **Source** → vælg **GitHub Actions** (ikke “Deploy from a branch”).
-2. **Actions** → **Deploy Pages (Actions-kilde)** → **Run workflow** eller vent på push til `main`.
-3. Første gang: under **Actions** kan der stå **“Waiting for your approval”** for miljøet **github-pages** → godkend. Alternativt: **Settings** → **Environments** → **github-pages** → slå **Required reviewers** fra.
-4. Når jobbet er grønt, vises den aktive URL under **Settings → Pages**.
+1. **Settings** → **Pages** → **Source** → **GitHub Actions**.
+2. **Actions** → **Deploy Pages (Actions-kilde)** → kør / vent på grøn.
+3. Godkend evt. miljøet **github-pages** første gang, eller slå **Required reviewers** fra under **Settings → Environments → github-pages**.
 
 ### Fejlsøgning (GitHub Pages)
 
-- **404 “There isn’t a GitHub Pages site here”**: Repo **public**? Er **Pages → Source** sat til den metode du bruger (**branch gh-pages** *eller* **GitHub Actions**)? Har den tilhørende workflow kørt **færdig og grøn**? (Ved Actions-kilde: brug **Deploy Pages (Actions-kilde)**; ved branch: brug **Publish GitHub Pages** og peg Pages på **gh-pages**.)
-- **Workflow fejler på push** (kun metode 1): **Read and write** skal være slået til.
+- **404 “There isn’t a GitHub Pages site here”**: Er repo **public**? Er **Pages → Source** og mappe/branch **korrekt**? (Mange vælger ved en fejl **`/`** på **`main`** i stedet for **`/docs`** — så findes der ingen `index.html` i publiceringsroden og du får 404.) Prøv **Metode 0** først.
+- **Workflow fejler** (metode 1): **Read and write** skal være slået til.
 - **Fork / andet repo-navn**: Opdatér `<base href="...">` i `docs/index.html` og `docs/404.html`.
 
 Mappen `docs/` indeholder desuden en tom **`docs/.nojekyll`**, så Jekyll ignoreres og filer med `_` i navnet ikke skjules, hvis du tilføjer sådanne senere.
