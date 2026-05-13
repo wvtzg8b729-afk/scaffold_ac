@@ -19,6 +19,10 @@ web/*.db-journal
 web/prisma/*.db
 web/prisma/*.db-journal
 
+# TypeScript
+*.tsbuildinfo
+web/tsconfig.tsbuildinfo
+
 # Debug / OS
 npm-debug.log*
 yarn-debug.log*
