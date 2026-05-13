@@ -1,0 +1,28 @@
+﻿GitHub-opsætning (manuel)
+
+Status
+------
+- Lokalt Git-repository er initialiseret med branchen `main` og et første commit.
+- GitHub CLI (`gh`) var ikke tilgængelig (ikke installeret eller ikke i PATH), så der blev ikke oprettet remote automatisk.
+- Hvis `git` ikke kendes i PowerShell, installer "Git for Windows" eller brug Git fra GitHub Desktop (mappe som `...\GitHubDesktop\app-*\resources\app\git\cmd\`).
+
+Trin på github.com
+------------------
+1. Gå til https://github.com/new
+2. Vælg et navn, f.eks. `fivem-hjemmeside-ac` eller `fivem-hjemmeside`
+3. Vælg **Private**
+4. Opret UDEN README, .gitignore eller licens (tomt repo)
+
+Kommandoer i projektmappen ("Fivem hjemmeside")
+-----------------------------------------------
+Erstat `DIN_GITHUB_BRUGER` og `REPO_NAVN` med dine værdier.
+
+    git remote add origin https://github.com/DIN_GITHUB_BRUGER/REPO_NAVN.git
+    git push -u origin main
+
+Hvis `origin` allerede findes, brug i stedet:
+
+    git remote set-url origin https://github.com/DIN_GITHUB_BRUGER/REPO_NAVN.git
+    git push -u origin main
+
+Bemærk: Commit `web/.env` er ignoreret via `.gitignore` — del aldrig hemmeligheder i repoet.
