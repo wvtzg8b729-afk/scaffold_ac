@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <base href="/scaffold_ac/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="description" content="Scaffold AC — FiveM anti-cheat ramme, webpanel og resource. Statisk oversigt." />
+  <title>Scaffold AC</title>
+  <!-- Kun systemfonter: virker altid (ingen tom side hvis fonts.googleapis.com blokeres) -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      color-scheme: dark;
+      --bg0: #07080c;
+      --bg1: #0e1118;
+      --bg2: #151a24;
+      --stroke: #252d3d;
+      --text: #eef2f7;
+      --muted: #9aa3b5;
+      --accent: #2dd4bf;
+      --accent-hover: #5eead4;
+      --accent-bg: rgba(45, 212, 191, 0.12);
+      --danger: #fb7185;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+      --max: 1040px;
+      --font: "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, "Cascadia Code", "Consolas", "SFMono-Regular", Menlo, monospace;
+    }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      color: var(--text);
+      background:
+        radial-gradient(900px 420px at 12% -8%, rgba(45, 212, 191, 0.18), transparent 55%),
+        radial-gradient(700px 380px at 88% 0%, rgba(99, 102, 241, 0.14), transparent 50%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 40%, var(--bg0));
+    }
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+    }
+    a:hover { color: var(--accent-hover); }
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    .shell { max-width: var(--max); margin: 0 auto; padding: 0 1.25rem 3.5rem; }
+    /* Top bar */
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+      background: rgba(7, 8, 12, 0.72);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .top-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: 1.05rem;
+    }
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #14b8a6, #0f766e 55%, #0d9488);
+      box-shadow: 0 10px 28px rgba(20, 184, 166, 0.35);
+      display: grid;
+      place-items: center;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #042f2e;
+      letter-spacing: 0.04em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: 1px solid transparent;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+    }
+    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .btn-primary {
+      background: linear-gradient(135deg, #14b8a6, #0d9488);
+      color: #042f2e;
+      box-shadow: 0 8px 24px rgba(20, 184, 166, 0.28);
+    }
+    .btn-primary:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--stroke);
+    }
+    .btn-ghost:hover { background: var(--bg2); border-color: #334155; }
+    /* Hero */
+    .hero {
+      padding: 2.75rem 0 1rem;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-bg);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+    }
+    .hero h1 {
+      margin: 1.25rem 0 0.75rem;
+      font-size: clamp(2rem, 4.8vw, 2.85rem);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      font-weight: 800;
+    }
+    .hero .lede {
+      margin: 0 0 1.75rem;
+      max-width: 58ch;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 0.65rem; align-items: center; }
+    .hint {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+    }
+    /* Grid cards */
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      margin-top: 2.25rem;
+    }
+    .card {
+      background: linear-gradient(165deg, rgba(21, 26, 36, 0.95), rgba(14, 17, 24, 0.92));
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.4rem;
+      box-shadow: var(--shadow);
+    }
+    .card h2 {
+      margin: 0 0 0.6rem;
+      font-size: 1.08rem;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+    }
+    .card p {
+      margin: 0 0 0.65rem;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+    .card p:last-child { margin-bottom: 0; }
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a5b4fc;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      margin-bottom: 0.55rem;
+    }
+    ul { margin: 0.4rem 0 0; padding-left: 1.2rem; color: var(--muted); }
+    li { margin: 0.35rem 0; }
+    code, .mono {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      background: #0b0e14;
+      border: 1px solid var(--stroke);
+      padding: 0.15rem 0.45rem;
+      border-radius: 8px;
+      color: #e2e8f0;
+    }
+    .kbd {
+      font-family: var(--mono);
+      font-size: 0.82em;
+      background: #0b0e14;
+      border: 1px solid var(--stroke);
+      padding: 0.1rem 0.4rem;
+      border-radius: 6px;
+    }
+    /* Code block look */
+    .block {
+      margin-top: 0.75rem;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      background: #080a0f;
+      border: 1px solid var(--stroke);
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+    footer {
+      margin-top: 2.75rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--stroke);
+      color: var(--muted);
+      font-size: 0.92rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .fine { font-size: 0.85rem; color: #7c8698; }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div class="top-inner">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">AC</span>
+        <span>Scaffold AC</span>
+      </div>
+      <nav class="nav-links" aria-label="Hurtige links">
+        <a class="btn btn-primary" href="https://github.com/wvtzg8b729-afk/scaffold_ac">Åbn på GitHub</a>
+        <a class="btn btn-ghost" href="https://github.com/wvtzg8b729-afk/scaffold_ac/blob/main/README.md">README</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="shell">
+    <header class="hero">
+      <span class="eyebrow">FiveM · staff · drift</span>
+      <h1>Scaffold AC</h1>
+      <p class="lede">
+        Samlet udgangspunkt til anti-cheat–relateret arbejde: <strong>webpanel</strong> (Next.js),
+        <strong>API</strong> og <strong>FiveM-resource</strong> i ét repo — med tydelig struktur og
+        dokumentation til produktion.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://github.com/wvtzg8b729-afk/scaffold_ac">Klon / fork repo</a>
+        <a class="btn btn-ghost" href="https://github.com/wvtzg8b729-afk/scaffold_ac/blob/main/LICENSE">Læs licens</a>
+      </div>
+      <p class="hint">Denne side er <strong>statisk HTML+CSS</strong> (ingen eksterne stylesheets). Panelet under <span class="mono">web/</span> hostes separat med Node.</p>
+    </header>
+
+    <div class="grid">
+      <article class="card">
+        <span class="tag">Oversigt</span>
+        <h2>Hvad er det?</h2>
+        <p>
+          Et staff-orienteret panel til servere, bans og konfiguration, plus en Lua-resource der
+          kan synkronisere mod dit panel. Målet er en ramme du kan bygge videre på — ikke en klon
+          af kommercielle produkter.
+        </p>
+        <p><a href="https://github.com/wvtzg8b729-afk/scaffold_ac">Se kildekode →</a></p>
+      </article>
+
+      <article class="card">
+        <span class="tag">Panel</span>
+        <h2>Next.js kræver Node</h2>
+        <p>
+          Mappen <span class="mono">web/</span> har API-ruter og Prisma. Den kan <strong>ikke</strong>
+          køre som ren GitHub Pages — brug fx Vercel, Railway eller egen VPS.
+        </p>
+        <div class="block">cd web<br />npm install<br />npm run dev</div>
+        <p style="margin-top:0.75rem">Miljø: <span class="mono">web/.env.example</span></p>
+      </article>
+
+      <article class="card">
+        <span class="tag">FiveM</span>
+        <h2>Resource</h2>
+        <p>
+          Kopiér <span class="mono">fivem-resource/scaffold_ac</span> til serverens
+          <span class="mono">resources/</span> og brug <span class="mono">ensure scaffold_ac</span>.
+        </p>
+        <p>Følg <span class="mono">INSTALL.txt</span> og <span class="mono">SERVER_CFG_SNIPPET.txt</span> i resource-mappen.</p>
+      </article>
+    </div>
+
+    <footer>
+      <span>Scaffold AC · statisk side til GitHub Pages</span>
+      <span class="fine">Proprietær licens — se <span class="mono">LICENSE</span> i repo</span>
+    </footer>
+  </main>
+</body>
+</html>
