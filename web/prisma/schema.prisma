@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Server {
+  id           String          @id @default(cuid())
+  name         String
+  apiKeyHash   String
+  createdAt    DateTime        @default(now())
+  config       ConfigSnapshot?
+  bans         Ban[]
+}
+
+model ConfigSnapshot {
+  id        String   @id @default(cuid())
+  serverId  String   @unique
+  server    Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  json      String
+  updatedAt DateTime @updatedAt
+}
+
+model Ban {
+  id          String   @id @default(cuid())
+  serverId    String
+  server      Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  identifiers String
+  reason      String
+  createdAt   DateTime @default(now())
+  active      Boolean  @default(true)
+}
