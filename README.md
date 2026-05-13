@@ -34,23 +34,30 @@ Når sitet er deployet, ligger det typisk på:
 
 Den byggede side er **ikke** panelet — den linker kun og forklarer. Se også `GITHUB_SETUP.txt` for remote og push.
 
-### Sådan får du siden til at virke (én metode)
+### Sådan får du siden til at virke
 
 **Vigtigst (gratis GitHub):** Adressen `https://dit-brugernavn.github.io/repo-navn/` virker normalt **kun**, hvis repo’et er **public** (offentligt). Er repo’et **private**, får du ofte **404** på Pages — så skal du enten sætte det til **public** (*Settings → General → Danger zone → Change repository visibility*) eller hoste `docs/` et andet sted (fx Vercel/Cloudflare).
 
-Vi bruger **kun** branchen **`gh-pages`** (ingen “GitHub Actions”-kilde i Pages-menuen — det undgår 404 og miljø-godkendelse).
+Brug **kun én** metode ad gangen (vælg enten **Metode 1** eller **Metode 2** under *Settings → Pages → Source*).
 
-1. **Settings** → **Actions** → **General** → **Workflow permissions** → vælg **Read and write permissions** → **Save**. Uden dette kan workflow’en ikke pushe til `gh-pages`.
-2. Push til `main` (eller kør workflow manuelt): **Actions** → **Publish GitHub Pages** → **Run workflow**. Vent til den er **grøn** — så findes branchen `gh-pages` med dit `docs/`-indhold. Tjek under **Code** → branch-dropdown at **`gh-pages`** findes og at **`index.html`** ligger i roden af den branch.
-3. **Settings** → **Pages** → **Build and deployment** → **Source**: vælg **Deploy from a branch** (ikke “GitHub Actions”).
-4. Branch: **gh-pages**, mappe: **/** (rod) → **Save**.
-5. Vent et minut og genindlæs din `github.io`-URL (fx linket øverst i dette afsnit).
+#### Metode 1 — Branch `gh-pages` (klassisk)
+
+1. **Settings** → **Actions** → **General** → **Workflow permissions** → **Read and write permissions** → **Save**.
+2. **Actions** → **Publish GitHub Pages** → **Run workflow** (eller push til `main`). Vent til **grøn**. Tjek **Code** → branch **gh-pages** → skal indeholde **index.html** i roden.
+3. **Settings** → **Pages** → **Source** → **Deploy from a branch** → branch **gh-pages**, mappe **/** → **Save**.
+
+#### Metode 2 — Hvis du stadig får 404 (kilde: GitHub Actions)
+
+1. **Settings** → **Pages** → **Source** → vælg **GitHub Actions** (ikke “Deploy from a branch”).
+2. **Actions** → **Deploy Pages (Actions-kilde)** → **Run workflow** eller vent på push til `main`.
+3. Første gang: under **Actions** kan der stå **“Waiting for your approval”** for miljøet **github-pages** → godkend. Alternativt: **Settings** → **Environments** → **github-pages** → slå **Required reviewers** fra.
+4. Når jobbet er grønt, vises den aktive URL under **Settings → Pages**.
 
 ### Fejlsøgning (GitHub Pages)
 
-- **404 “There isn’t a GitHub Pages site here”**: (1) Repo **skal typisk være public** på gratis GitHub — se den **vigtigste** note ovenfor. (2) Under **Code** skal branchen **`gh-pages`** findes; findes den ikke, er workflow ikke kørt grønt eller **Read and write** er ikke slået til. (3) Under **Settings → Pages** skal **Source** være **Deploy from a branch** → **gh-pages** → **/** — ellers viser GitHub stadig 404.
-- **Workflow fejler på push**: **Workflow permissions** skal være **Read and write** (se trin 1 ovenfor).
-- **Fork / andet repo-navn**: Opdatér `<base href="...">` i `docs/index.html` og `docs/404.html`, så stien matcher dit repo (fx `/mit-repo-navn/`).
+- **404 “There isn’t a GitHub Pages site here”**: Repo **public**? Er **Pages → Source** sat til den metode du bruger (**branch gh-pages** *eller* **GitHub Actions**)? Har den tilhørende workflow kørt **færdig og grøn**? (Ved Actions-kilde: brug **Deploy Pages (Actions-kilde)**; ved branch: brug **Publish GitHub Pages** og peg Pages på **gh-pages**.)
+- **Workflow fejler på push** (kun metode 1): **Read and write** skal være slået til.
+- **Fork / andet repo-navn**: Opdatér `<base href="...">` i `docs/index.html` og `docs/404.html`.
 
 Mappen `docs/` indeholder desuden en tom **`docs/.nojekyll`**, så Jekyll ignoreres og filer med `_` i navnet ikke skjules, hvis du tilføjer sådanne senere.
 
