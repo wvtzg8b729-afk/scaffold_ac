@@ -14,10 +14,15 @@ export function CreateServerForm() {
   function submit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
+    const trimmed = name.trim()
+    if (!trimmed) {
+      setError('Angiv et servernavn.')
+      return
+    }
     start(async () => {
-      const res = await createServerAction(name)
+      const res = await createServerAction(trimmed)
       if ('error' in res) {
-        setError('Kunne ikke oprette server.')
+        setError(res.error ?? 'Ukendt fejl')
         return
       }
       setShownKey(res.apiKey)
@@ -31,9 +36,15 @@ export function CreateServerForm() {
       <h2 className="mb-3 text-sm font-medium text-slate-200">Opret server</h2>
       <form onSubmit={submit} className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="flex-1">
-          <label className="mb-1 block text-xs text-slate-400">Navn</label>
+          <label htmlFor="server-name" className="mb-1 block text-xs text-slate-400">
+            Navn
+          </label>
           <input
-            className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm"
+            id="server-name"
+            name="name"
+            required
+            autoComplete="off"
+            className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm outline-none ring-emerald-500/0 transition focus:border-emerald-600/60 focus:ring-2"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Fx. Public #1"

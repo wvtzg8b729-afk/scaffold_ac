@@ -7,21 +7,29 @@ import { generateApiKey, hashApiKey } from '@/lib/api-key'
 import { defaultAcConfig, stringifyAcConfig, type AcConfig } from '@/lib/ac-config'
 
 export async function createServerAction(name: string) {
-  if (!(await isAdminSession())) return { error: 'Unauthorized' as const }
+  if (!(await isAdminSession())) return { error: 'Ikke logget ind.' as const }
   const trimmed = name.trim()
+  if (!trimmed) return { error: 'Angiv et servernavn.' as const }
+
   const plain = generateApiKey()
   const apiKeyHash = await hashApiKey(plain)
-  const server = await prisma.server.create({
-    data: {
-      name: trimmed || 'Uden navn',
-      apiKeyHash,
-      config: {
-        create: { json: stringifyAcConfig(structuredClone(defaultAcConfig)) },
+
+  try {
+    const server = await prisma.server.create({
+      data: {
+        name: trimmed,
+        apiKeyHash,
+        config: {
+          create: { json: stringifyAcConfig(structuredClone(defaultAcConfig)) },
+        },
       },
-    },
-  })
-  revalidatePath('/dashboard')
-  return { id: server.id, apiKey: plain }
+    })
+    revalidatePath('/dashboard')
+    return { id: server.id, apiKey: plain }
+  } catch (err) {
+    console.error('createServerAction', err)
+    return { error: 'Kunne ikke oprette server (databasefejl).' as const }
+  }
 }
 
 export async function updateServerConfigAction(serverId: string, cfg: AcConfig) {
