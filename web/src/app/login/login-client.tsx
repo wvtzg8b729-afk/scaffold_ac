@@ -30,7 +30,7 @@ export default function LoginClient() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4">
-      <h1 className="mb-2 text-2xl font-semibold tracking-tight">AC Panel</h1>
+      <h1 className="mb-2 text-2xl font-semibold tracking-tight">Scaffold AC</h1>
       <p className="mb-8 text-sm text-slate-400">Log ind med admin-oplysninger fra miljøvariabler.</p>
       <form onSubmit={onSubmit} className="space-y-4 rounded-xl border border-slate-800 bg-slate-900/60 p-6">
         <div>

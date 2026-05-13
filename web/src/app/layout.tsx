@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'AC Panel',
+  title: 'Scaffold AC',
   description: 'Staff panel til serverkonfiguration og bans',
 }
 

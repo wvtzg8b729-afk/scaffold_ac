@@ -17,6 +17,7 @@ export default async function ServerDetailPage({ params }: { params: { id: strin
   const proto = h.get('x-forwarded-proto') ?? 'http'
   const base = `${proto}://${host}`
   const cfgUrl = `${base}/api/servers/${server.id}/config`
+  const bansUrl = `${base}/api/servers/${server.id}/bans`
   const initial = parseAcConfig(server.config?.json)
 
   return (
@@ -31,10 +32,16 @@ export default async function ServerDetailPage({ params }: { params: { id: strin
           {server.id}
         </code>
       </div>
-      <div className="rounded-lg border border-slate-800 bg-slate-900/40 p-4 text-sm text-slate-300">
-        <p className="mb-1 font-medium text-slate-100">FiveM API (GET konfiguration)</p>
-        <code className="block break-all text-xs text-emerald-300/90">{cfgUrl}</code>
-        <p className="mt-2 text-xs text-slate-500">
+      <div className="space-y-3 rounded-lg border border-slate-800 bg-slate-900/40 p-4 text-sm text-slate-300">
+        <div>
+          <p className="mb-1 font-medium text-slate-100">FiveM API — konfiguration (GET / PATCH)</p>
+          <code className="block break-all text-xs text-emerald-300/90">{cfgUrl}</code>
+        </div>
+        <div>
+          <p className="mb-1 font-medium text-slate-100">FiveM API — bans (GET / POST)</p>
+          <code className="block break-all text-xs text-emerald-300/90">{bansUrl}</code>
+        </div>
+        <p className="text-xs text-slate-500">
           Brug header <span className="text-slate-300">Authorization: Bearer &lt;api-nøgle&gt;</span>. Nøglen vises kun ved oprettelse.
         </p>
       </div>

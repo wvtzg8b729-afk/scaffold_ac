@@ -32,5 +32,5 @@ end
 ---@param source number
 ---@return boolean isStaff
 function Bridge.IsStaff(source)
-    return IsPlayerAceAllowed(source, 'ac_panel.staff') or false
+    return IsPlayerAceAllowed(source, 'scaffold_ac.staff') or false
 end

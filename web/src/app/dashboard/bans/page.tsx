@@ -15,7 +15,10 @@ export default async function BansPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-xl font-semibold">Bans</h1>
-        <p className="mt-1 text-sm text-slate-400">Enkel liste over aktive/inaktive bans (MVP — ikke wired til FiveM endnu).</p>
+        <p className="mt-1 text-sm text-slate-400">
+          Aktive bans synkroniseres til FiveM-resourcen og blokerer ved connect (på alle identifiers).
+          Resourcen kan også selv oprette bans via <code className="text-slate-300">/acban</code> in-game.
+        </p>
       </div>
       <BanCreateForm servers={servers} />
       <div>
