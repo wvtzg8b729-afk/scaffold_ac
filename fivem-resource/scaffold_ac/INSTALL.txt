@@ -1,78 +1,158 @@
-Scaffold AC (ressource: scaffold_ac) — installation (dansk)
-============================================================
-
-Dette er en privat anticheat-bridge: server-side core + frivilligt client-signal,
-styret af et web-panel (Next.js + Prisma). Det er IKKE en kopi af kommercielle
-løsninger som FiveGuard/Elektron — det leverer ikke proprietære
-client-tampering-detektioner, kun:
-
-  * Server-side config-sync (toggles pr. server, gemt i panelet).
-  * Multi-framework bridge: auto, standalone, esx, qb, vrp.
-  * Ban-sync: panel-bans blokerer ved connect, og /acban POST'er nye bans.
-  * Discord-webhook helper (alert + ban kanaler).
-  * Staff-kommandoer: /acstatus, /acban, /acrefresh (kræver ace-rettighed
-    "scaffold_ac.staff" eller framework-staff).
-  * Exports: GetConfig, GetFramework, PostBan, SendAlert.
-
-Forudsætninger
---------------
-1. Web-panel kører (default: http://127.0.0.1:3000). Se ../../web/README/.env.
-2. Du har logget ind i panelet, oprettet en server og kopieret API-nøglen
-   (vises kun én gang) samt server-id'et.
-
-Installation i FiveM
---------------------
-1. Kopiér mappen `scaffold_ac` til serverens `resources/`-mappe.
-2. Tilføj convars + ensure-linjer til server.cfg (se SERVER_CFG_SNIPPET.txt).
-3. Genstart serveren — eller kør `refresh` + `ensure scaffold_ac` i konsollen.
-4. Bekræft i konsollen at du ser:
-     [scaffold_ac] Server booted. Framework=<auto-detected>
-     [scaffold_ac] Remote config opdateret.
-     [scaffold_ac] Ban-liste opdateret (N aktive).
-
-Hvis config-fetch fejler, tjek:
-  * `ac_api_url` peger på panelet (ingen trailing slash).
-  * `ac_api_key` er nøglen i klartekst, ikke hashen i databasen.
-  * `ac_server_id` matcher id'et i panelet (vises på server-detaljesiden).
-
-Framework
----------
-Standardværdien for `ac_framework` er `auto`. Resourcen tjekker i rækkefølge:
-  es_extended -> qb-core -> vrp -> standalone
-Sæt convaren eksplicit (`esx`/`qb`/`vrp`/`standalone`) hvis du har flere
-frameworks i gang, eller hvis auto-detect rammer forkert.
-
-Staff-permissions
------------------
-For at bruge /ac-kommandoerne fra konsol/in-game skal afsenderen være staff.
-Mulighederne er (i prioriteret rækkefølge):
-  1. Console (src=0) er altid tilladt.
-  2. Framework-staff (ESX getGroup admin/superadmin, QBCore god/admin, vRP
-     ikke-user-group). Se server/bridge/*.lua.
-  3. Ace-permission. Tilføj i server.cfg fx:
-        add_ace identifier.license:<din-license> scaffold_ac.staff allow
-
-Bans
-----
-* Panelet er kilden til sandhed: /dashboard/bans opretter bans, og resourcen
-  henter aktive bans hvert `ac_ban_refresh_ms` (default 60s).
-* `playerConnecting` matcher mod ALLE spillerens identifiers (license, fivem,
-  steam osv.) — også dem der ikke er gemt i ban-rækken, hvis blot ét match
-  findes.
-* `/acban <player_id> <årsag>` in-game sender alle target'ens identifiers til
-  panelet og kicker spilleren med det samme.
-
-Webhooks
---------
-Sæt `webhooks.alertWebhook` og/eller `webhooks.banWebhook` på panelet
-(server-detaljesiden -> fanen "Webhooks"). Hvis kun `webhooks.url` er sat,
-bruges den som fallback for begge kanaler. Discord-kompatible incoming
-webhook-URL'er virker direkte.
-
-Hvad denne resource IKKE gør
-----------------------------
-* Den injicerer ikke client-side anti-tamper. Kommercielle produkter som
-  FiveGuard/Elektron leverer proprietære detektioner som vi bevidst ikke
-  reproducerer — vi udstiller kun rammen (toggles + bridge + bans).
-* Stub-detektioner (movement/weapons/entities) logger kun pt. og kicker ikke
-  selv. Byg din egen logik oven på exports.GetConfig() når du er klar.
+Scaffold AC (ressource: scaffold_ac) — installation (dansk)
+
+============================================================
+
+
+
+Dette er en privat anticheat-bridge: server-side core + frivilligt client-signal,
+
+styret af et web-panel (Next.js + Prisma). Det er IKKE en kopi af kommercielle
+
+løsninger som FiveGuard/Elektron — det leverer ikke proprietære
+
+client-tampering-detektioner, kun:
+
+
+
+  * Server-side config-sync (toggles pr. server, gemt i panelet).
+
+  * Multi-framework bridge: auto, standalone, esx, qb, vrp.
+
+  * Ban-sync: panel-bans blokerer ved connect, og /acban POST'er nye bans.
+
+  * Discord-webhook helper (alert + ban kanaler).
+
+  * Staff-kommandoer: /acstatus, /acban, /acrefresh (kræver ace-rettighed
+
+    jf. convar `ac_staff_ace` (standard: scaffold_ac.staff) eller framework-staff).
+
+  * Exports: GetConfig, GetFramework, PostBan, SendAlert.
+
+
+
+Forudsætninger
+
+--------------
+
+1. Web-panel kører (default: http://127.0.0.1:3000). Se `web/.env.example` i repo-roden (kopiér til `web/.env`).
+
+2. Du har logget ind i panelet, oprettet en server og kopieret API-nøglen
+
+   (vises kun én gang) samt server-id'et.
+
+
+
+Installation i FiveM
+
+--------------------
+
+1. Kopiér mappen `scaffold_ac` til serverens `resources/`-mappe.
+
+2. Tilføj convars + ensure-linjer til server.cfg (se SERVER_CFG_SNIPPET.txt).
+
+3. Genstart serveren — eller kør `refresh` + `ensure scaffold_ac` i konsollen.
+
+4. Bekræft i konsollen at du ser:
+
+     [scaffold_ac] Server booted. Framework=<auto-detected>
+
+     [scaffold_ac] Remote config opdateret.
+
+     [scaffold_ac] Ban-liste opdateret (N aktive).
+
+
+
+Hvis config-fetch fejler, tjek:
+
+  * `ac_api_url` peger på panelet (ingen trailing slash).
+
+  * `ac_api_key` er nøglen i klartekst, ikke hashen i databasen.
+
+  * `ac_server_id` matcher id'et i panelet (vises på server-detaljesiden).
+
+
+
+Framework
+
+---------
+
+Standardværdien for `ac_framework` er `auto`. Resourcen tjekker i rækkefølge:
+
+  es_extended -> qb-core -> vrp -> standalone
+
+Sæt convaren eksplicit (`esx`/`qb`/`vrp`/`standalone`) hvis du har flere
+
+frameworks i gang, eller hvis auto-detect rammer forkert.
+
+
+
+Staff-permissions
+
+-----------------
+
+For at bruge /ac-kommandoerne fra konsol/in-game skal afsenderen være staff.
+
+Mulighederne er (i prioriteret rækkefølge):
+
+  1. Console (src=0) er altid tilladt.
+
+  2. Framework-staff (ESX getGroup admin/superadmin, QBCore god/admin, vRP
+
+     ikke-user-group). Se server/bridge/*.lua.
+
+  3. Ace-permission. Tilføj i server.cfg fx (rettighedsnavnet skal matche
+
+     `ac_staff_ace`, standard er `scaffold_ac.staff`):
+
+        add_ace identifier.license:<din-license> scaffold_ac.staff allow
+
+
+
+Bans
+
+----
+
+* Panelet er kilden til sandhed: /dashboard/bans opretter bans, og resourcen
+
+  henter aktive bans hvert `ac_ban_refresh_ms` (default 60s).
+
+* `playerConnecting` matcher mod ALLE spillerens identifiers (license, fivem,
+
+  steam osv.) — også dem der ikke er gemt i ban-rækken, hvis blot ét match
+
+  findes.
+
+* `/acban <player_id> <årsag>` in-game sender alle target'ens identifiers til
+
+  panelet og kicker spilleren med det samme.
+
+
+
+Webhooks
+
+--------
+
+Sæt `webhooks.alertWebhook` og/eller `webhooks.banWebhook` på panelet
+
+(server-detaljesiden -> fanen "Webhooks"). Hvis kun `webhooks.url` er sat,
+
+bruges den som fallback for begge kanaler. Discord-kompatible incoming
+
+webhook-URL'er virker direkte.
+
+
+
+Hvad denne resource IKKE gør
+
+----------------------------
+
+* Den injicerer ikke client-side anti-tamper. Kommercielle produkter som
+
+  FiveGuard/Elektron leverer proprietære detektioner som vi bevidst ikke
+
+  reproducerer — vi udstiller kun rammen (toggles + bridge + bans).
+
+* Stub-detektioner (movement/weapons/entities) logger kun pt. og kicker ikke
+
+  selv. Byg din egen logik oven på exports.GetConfig() når du er klar.
+

@@ -1,29 +1,58 @@
-# --------- Scaffold AC (scaffold_ac) ---------
-# Indsæt ét sted i server.cfg (helst over `ensure scaffold_ac`).
-# `setr` gør convars synlige for både server- og client-script.
-
-# URL til web-panelet (uden trailing slash).
-setr ac_api_url "https://dit-panel.example.com"
-
-# API-nøgle i klartekst — fra panelet ved oprettelse af serveren.
-# (Læg gerne denne linje i en separat, ikke-commit'ed fil og `exec` den.)
-setr ac_api_key "indsaet-din-api-noegle-her"
-
-# Server-id fra panelet (vises på server-detaljesiden).
-setr ac_server_id "indsaet-server-id-her"
-
-# Framework — `auto` (anbefalet) finder selv esx/qb/vrp/standalone.
-setr ac_framework "auto"
-
-# Hvor ofte resourcen henter config / bans (ms). Sæt højere for mindre traffic.
-setr ac_config_refresh_ms "60000"
-setr ac_ban_refresh_ms    "60000"
-
-# Ace-permission der låser /ac-kommandoer op udover framework-staff.
-setr ac_staff_ace "scaffold_ac.staff"
-
-# Giv dig selv staff-rettigheder (skift identifier ud).
-add_ace identifier.license:DIN_LICENSE_HER scaffold_ac.staff allow
-
-ensure scaffold_ac
-# ----------------------------
+# --------- Scaffold AC (scaffold_ac) ---------
+
+# Indsæt ét sted i server.cfg (helst over `ensure scaffold_ac`).
+
+# `setr` gør convars synlige for både server- og client-script.
+
+
+
+# URL til web-panelet (uden trailing slash).
+
+setr ac_api_url "https://dit-panel.example.com"
+
+
+
+# API-nøgle i klartekst — fra panelet ved oprettelse af serveren.
+
+# (Læg gerne denne linje i en separat, ikke-commit'ed fil og `exec` den.)
+
+setr ac_api_key "indsaet-din-api-noegle-her"
+
+
+
+# Server-id fra panelet (vises på server-detaljesiden).
+
+setr ac_server_id "indsaet-server-id-her"
+
+
+
+# Framework — `auto` (anbefalet) finder selv esx/qb/vrp/standalone.
+
+setr ac_framework "auto"
+
+
+
+# Hvor ofte resourcen henter config / bans (ms). Sæt højere for mindre traffic.
+
+setr ac_config_refresh_ms "60000"
+
+setr ac_ban_refresh_ms    "60000"
+
+
+
+# Ace-permission der låser /ac-kommandoer op udover framework-staff.
+
+setr ac_staff_ace "scaffold_ac.staff"
+
+
+
+# Giv dig selv staff-rettigheder (skift identifier ud).
+
+add_ace identifier.license:ERSTAT_MED_DIN_LICENSE scaffold_ac.staff allow
+
+
+
+ensure scaffold_ac
+
+# ----------------------------
+

@@ -1,0 +1,33 @@
+# Statisk hjemmeside (docs/) → branchen gh-pages.
+# GitHub: Settings → Pages → Source = "Deploy from a branch" → gh-pages → / (root)
+#
+# KRÆVER: Settings → Actions → General → Workflow permissions = "Read and write permissions"
+# (ellers kan GITHUB_TOKEN ikke pushe gh-pages).
+
+name: Publish GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Push docs til gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs
+          publish_branch: gh-pages
+          force_orphan: true

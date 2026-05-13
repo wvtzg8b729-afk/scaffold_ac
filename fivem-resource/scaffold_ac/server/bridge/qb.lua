@@ -69,5 +69,5 @@ end
 function Bridge.IsStaff(source)
     local g = Bridge.GetGroup(source)
     if type(g) == 'string' and (g == 'god' or g == 'admin') then return true end
-    return IsPlayerAceAllowed(source, 'scaffold_ac.staff') or false
+    return IsPlayerAceAllowed(source, Config.StaffAce or 'scaffold_ac.staff') or false
 end

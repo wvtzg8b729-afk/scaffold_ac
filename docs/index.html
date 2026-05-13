@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <!-- Projekt-site på GitHub Pages: base sikrer korrekt opløsning af relative URL'er under /repo/ -->
+  <base href="/scaffold_ac/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Scaffold AC — anti-cheat og panel til FiveM. Statisk oversigt; Next.js-panel kræver Node-hosting." />
+  <title>Scaffold AC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --bg-elev: #12151b;
+      --border: #1e2430;
+      --text: #e8ecf4;
+      --muted: #9aa4b5;
+      --accent: #5eead4;
+      --accent-dim: #2dd4bf33;
+      --radius: 14px;
+      --max: 720px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-optical-sizing: auto;
+      background: radial-gradient(1200px 600px at 20% -10%, #134e4a22, transparent),
+                  radial-gradient(900px 500px at 100% 0%, #1e3a5f33, transparent),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: #99f6e4; }
+    header {
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--bg-elev), transparent);
+    }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+    .brand {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-weight: 700; letter-spacing: -0.02em; font-size: 1.15rem;
+    }
+    .logo {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, #14b8a6, #0d9488);
+      display: grid; place-items: center;
+      font-size: 0.85rem; color: #042f2e; font-weight: 800;
+    }
+    h1 {
+      font-size: clamp(1.85rem, 4vw, 2.35rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin: 2.25rem 0 0.75rem;
+    }
+    .lede { color: var(--muted); font-size: 1.1rem; margin: 0 0 2rem; }
+    section {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 1rem;
+    }
+    section h2 {
+      margin: 0 0 0.65rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    section p { margin: 0 0 0.65rem; color: var(--muted); }
+    section p:last-child { margin-bottom: 0; }
+    .pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid #2dd4bf44;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+    ul { margin: 0.5rem 0 0; padding-left: 1.15rem; color: var(--muted); }
+    li { margin: 0.35rem 0; }
+    code, .mono {
+      font-family: ui-monospace, "Cascadia Code", "SF Mono", Menlo, monospace;
+      font-size: 0.9em;
+      background: #0f1218;
+      border: 1px solid var(--border);
+      padding: 0.12rem 0.4rem;
+      border-radius: 6px;
+      color: #cbd5e1;
+    }
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">AC</span>
+        <span>Scaffold AC</span>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <span class="pill">FiveM · panel · resource</span>
+    <h1>Scaffold AC</h1>
+    <p class="lede">
+      Et samlet udgangspunkt til anti-cheat-relateret arbejde på FiveM: webpanel
+      (Next.js), API og FiveM-resource i samme repo — med fokus på klar struktur
+      og driftsklar opsætning.
+    </p>
+
+    <section aria-labelledby="hvad">
+      <h2 id="hvad">Hvad er det?</h2>
+      <p>
+        Scaffold AC samler et moderne admin-panel, server-side logik og
+        resource-kode, så du kan konfigurere bans, servere og integrationer ét
+        sted. Denne side er en statisk oversigt; selve panelet kører som en
+        separat Node-applikation.
+      </p>
+      <p>
+        <a href="https://github.com/wvtzg8b729-afk/scaffold_ac">Kildekode på GitHub (repo: scaffold_ac) →</a>
+      </p>
+    </section>
+
+    <section aria-labelledby="panel">
+      <h2 id="panel">Panel (Next.js) kræver Node-hosting</h2>
+      <p>
+        Mappen <span class="mono">web/</span> indeholder Next.js-appen med API
+        routes og Prisma. Den kan <strong>ikke</strong> køre som ren statisk
+        GitHub Pages — du skal hoste den på f.eks. Vercel, Railway, egen VPS
+        eller lignende med Node og database.
+      </p>
+      <p>Lokalt fra repo-roden:</p>
+      <ul>
+        <li><code>cd web</code> — gå ind i panel-projektet</li>
+        <li><code>npm install</code> — hent afhængigheder</li>
+        <li><code>npm run dev</code> — start udviklingsserver</li>
+      </ul>
+      <p>
+        Se <span class="mono">web/.env.example</span> for miljøvariabler og
+        Prisma/SQLite eller anden database efter behov.
+      </p>
+    </section>
+
+    <section aria-labelledby="fivem">
+      <h2 id="fivem">FiveM-resource</h2>
+      <p>
+        Resource-kode findes under <span class="mono">fivem-resource/</span>
+        (fx <span class="mono">scaffold_ac</span>). Følg respektive
+        <span class="mono">INSTALL.txt</span>-filer i resource-mappen for
+        server.cfg og afhængigheder.
+      </p>
+    </section>
+
+    <footer>
+      Scaffold AC · statisk side deployet via GitHub Actions → GitHub Pages.
+      Licens: proprietær — se <span class="mono">LICENSE</span> i repo.
+    </footer>
+  </main>
+</body>
+</html>

@@ -298,6 +298,15 @@ local function isStaff(src)
     return IsPlayerAceAllowed(src, Config.StaffAce or 'scaffold_ac.staff') or false
 end
 
+--- Konsol (src=0): print. In-game staff: chat-besked.
+local function staffNotify(src, msg)
+    if src == 0 then
+        print('[scaffold_ac] ' .. msg)
+    else
+        TriggerClientEvent('chat:addMessage', src, { args = { '[scaffold_ac]', msg } })
+    end
+end
+
 --- /acstatus — viser status i konsol / chat for staff.
 RegisterCommand('acstatus', function(src)
     if not isStaff(src) then return end
@@ -320,23 +329,23 @@ RegisterCommand('acban', function(src, args)
     if not isStaff(src) then return end
     local target = tonumber(args[1])
     if not target or target <= 0 then
-        print('[scaffold_ac] Brug: /acban <player_id> <årsag>')
+        staffNotify(src, 'Brug: /acban <player_id> <årsag>')
         return
     end
     local reason = table.concat(args, ' ', 2)
     if reason == '' then reason = 'Manuel ban via /acban' end
     local ids = GetPlayerIdentifiers(target) or {}
     if #ids == 0 then
-        print('[scaffold_ac] Ingen identifiers fundet for target.')
+        staffNotify(src, 'Ingen identifiers fundet for target.')
         return
     end
     postBan(ids, reason, function(ok, err)
         if ok then
-            print(('[scaffold_ac] Ban registreret for player %s.'):format(target))
+            staffNotify(src, ('Ban registreret for player %s.'):format(target))
             postWebhook(banUrl(), ('Manuel ban: src=%s reason=%s'):format(target, reason))
             DropPlayer(target, ('Bannet: %s'):format(reason))
         else
-            print(('[scaffold_ac] Ban POST fejlede: %s'):format(err or 'ukendt'))
+            staffNotify(src, ('Ban POST fejlede: %s'):format(err or 'ukendt'))
         end
     end)
 end, false)
